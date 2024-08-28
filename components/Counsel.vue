@@ -8,7 +8,7 @@
       </fieldset>
       <div id="buttons">
         <div id="buttons_up">
-          <input class="buttons" type="button" id="register" v-on:click="modalStatus=false" value="등록">
+          <input class="buttons" type="button" id="register" v-on:click="submitRegister" value="등록">
           <input class="buttons" type="button" id="modify" value="변경">
           <input class="buttons" type="button" id="delete" value="삭제">
           <input class="buttons" type="button" id="new" v-on:click="modalStatus=true" value="신규">
@@ -21,11 +21,11 @@
     </div>
     
     <transition name="modal">
-      <ModalVue @CloseModal="modalStatus=false" :modalStatus="modalStatus" />
+      <ModalVue v-if="modalStatus" @CloseModal="modalStatus=false" @newMember="handleNewMember" :modalStatus="modalStatus" />
+      <!-- @CloseModal="modalStatus=false" :modalStatus="modalStatus" @newMember="handleNewMember"/> -->
     </transition>
+
 </template>
-
-
 
 <script>
 
@@ -38,13 +38,13 @@ export default {
       return {
         CounselData,
         modalStatus : false,
-        
+        addMember: {},
       }
     },
     props : {
       CustomerData: Array,
       myPicked: String,
-
+      newMember: Object,
     },
     computed: {
       localMember() {
@@ -61,15 +61,36 @@ export default {
         }
         return {};
       },
+      
     },
     components: {
       ModalVue,
     },
+
     methods: {
-    openModal() {
-      // 'open-modal' 이벤트를 부모 컴포넌트로 emit
-      this.$emit('open-modal');
-    }
+      // openModal() {
+      //   // 'open-modal' 이벤트를 부모 컴포넌트로 emit
+      //   this.$emit('open-modal');
+      // },
+      // handleRegister(){
+      //   console.log(this.newMember)
+      //   this.$emit('newMember',this.newMember)
+      //   this.$emit('CloseModal')
+      // },
+
+      handleNewMember(newMember) {
+        this.addMember = newMember;
+        console.log(this.addMember);
+        // Handle the newMember data (e.g., update data, make API calls, etc.)
+      },
+      submitRegister() {
+        // This function can be used to handle additional logic if needed
+        // For now, it just logs the newMember data
+        this.$emit('addMember', this.addMember)
+        console.log(this.addMember);
+        // Optionally, you can add logic here to process the newMember data, such as sending it to a server
+      }
+      
   }
 
 }

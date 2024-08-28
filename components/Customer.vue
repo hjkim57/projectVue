@@ -7,21 +7,28 @@
       <input class="buttons" type="button" id="all" value="전체 검색">
       <!-- <button id="all">전체 검색</button> -->
       <fieldset class="names">
-        <input type="radio" name="customers" value="윤하나" v-model="myPicked" checked>윤하나<br>
+        <label v-for="mem in CustomerData" :key="mem.cus_id">
+        <input type="radio" name="customers" :value="mem.cus_name" v-model="myPicked" />
+        {{ mem.cus_name }}<br>
+      </label>
+        <!-- <input type="radio" name="customers" v-for="mem in CustomerData" :key="mem" v-bind:value="mem.cus_id" v-model="myPicked">
+        {{ mem.cus_name }} -->
+
+        <!-- <input type="radio" name="customers" value="윤하나" v-model="myPicked" checked>윤하나<br>
         <input type="radio" name="customers" value="강해라" v-model="myPicked">강해라<br>
         <input type="radio" name="customers" value="나란다" v-model="myPicked">나란다<br>
         <input type="radio" name="customers" value="담나라" v-model="myPicked">담나라<br>
         <input type="radio" name="customers" value="라면다" v-model="myPicked">라면다<br>
         <input type="radio" name="customers" value="박석일" v-model="myPicked">박석일<br>
         <input type="radio" name="customers" value="이성경" v-model="myPicked">이성경<br>
-        <input type="radio" name="customers" value="김임시" v-model="myPicked">김임시
+        <input type="radio" name="customers" value="김임시" v-model="myPicked">김임시 -->
         <!-- <p>{{ myPicked }}</p> -->
         <!-- {{CustomerData[0]}} -->
       </fieldset>
   </div>
 
   <InformationVue :CustomerData="CustomerData" :myPicked="myPicked"></InformationVue>
-  <CounselVue :CustomerData="CustomerData" :myPicked="myPicked"></CounselVue>
+  <CounselVue :CustomerData="CustomerData" :myPicked="myPicked" @addMember="adding"></CounselVue>
 
 </template>
 
@@ -40,12 +47,23 @@ export default {
       }
     },
     props: {
-        // member : Object,
+        newmember : Object,
     },
     components : {
       InformationVue,
       CounselVue,
     },
+
+    methods : {
+      // adding() {
+      //   this.CustomerData.push(this.addMember)
+      // },
+      adding(newMember) {
+        newMember.cus_id = CustomerData.length+1
+        this.CustomerData.push(newMember)
+        // Handle the newMember data (e.g., update data, make API calls, etc.)
+      },
+    }
 
 };
 
