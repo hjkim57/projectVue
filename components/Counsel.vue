@@ -9,7 +9,7 @@
       <div id="buttons">
         <div id="buttons_up">
           <input class="buttons" type="button" id="register" v-on:click="submitRegister" value="등록">
-          <input class="buttons" type="button" id="modify" value="변경">
+          <input class="buttons" type="button" id="modify" v-on:click="warning" value="변경">
           <input class="buttons" type="button" id="delete" value="삭제">
           <input class="buttons" type="button" id="new" v-on:click="modalStatus=true" value="신규">
         </div>
@@ -25,12 +25,17 @@
       <!-- @CloseModal="modalStatus=false" :modalStatus="modalStatus" @newMember="handleNewMember"/> -->
     </transition>
 
+    <transition name="warn">
+      <WarningVue v-if="warnStatus" @CloseWarn="warnStatus=false" :warnStatus="warnStatus" :step="step" /> 
+    </transition>
+
 </template>
 
 <script>
 
 import CounselData from '../assets/counsel.js';
 import ModalVue from '../components/Modal.vue';
+import WarningVue from './Warning.vue';
 
 export default {
     name :'CounselVue',
@@ -39,6 +44,7 @@ export default {
         CounselData,
         modalStatus : false,
         addMember: {},
+        warnStatus : false,
       }
     },
     props : {
@@ -65,6 +71,7 @@ export default {
     },
     components: {
       ModalVue,
+      WarningVue,
     },
 
     methods: {
@@ -89,6 +96,14 @@ export default {
         this.$emit('addMember', this.addMember)
         console.log(this.addMember);
         // Optionally, you can add logic here to process the newMember data, such as sending it to a server
+      },
+      modifying() {
+        this.warnStatus = true;
+        this.step = 2;
+      },
+      deleting() {
+        this.warnStatus = true;
+        this.step = 3;
       }
       
   }

@@ -1,13 +1,13 @@
 <template>
   <div class="container1">
       <div class="inform"><b>고객성명 : </b></div>
-      <input type="text" id="search_name"><br>
+      <input type="text" id="search_name" v-model="findPerson"><br>
       <!-- <button id="filter">조건 검색</button><br> -->
-      <input class="buttons" type="button" id="filter" value="조건 검색">
-      <input class="buttons" type="button" id="all" value="전체 검색">
+      <input class="buttons" type="button" id="filter" @click="filtering" value="조건 검색">
+      <input class="buttons" type="button" id="all" @click="allShow" value="전체 검색">
       <!-- <button id="all">전체 검색</button> -->
       <fieldset class="names">
-        <label v-for="mem in CustomerData" :key="mem.cus_id">
+        <label v-for="mem in copyCustomerData" :key="mem.cus_id">
         <input type="radio" name="customers" :value="mem.cus_name" v-model="myPicked" />
         {{ mem.cus_name }}<br>
       </label>
@@ -44,6 +44,8 @@ export default {
       return {
         CustomerData : CustomerData,
         myPicked:'윤하나',
+        findPerson : '',
+        copyCustomerData : [...CustomerData],
       }
     },
     props: {
@@ -52,6 +54,16 @@ export default {
     components : {
       InformationVue,
       CounselVue,
+    },
+
+    computed : {
+      // filtering() {
+      //   // Ensure CustomerData is defined and is an array
+      //   if (Array.isArray(this.CustomerData)) {
+      //     return this.CustomerData.find(customer => customer.cus_name === this.findPerson) || {};
+      //   }
+      //   return {}; // Return an empty object if CustomerData is not an array
+      // },
     },
 
     methods : {
@@ -63,6 +75,17 @@ export default {
         this.CustomerData.push(newMember)
         // Handle the newMember data (e.g., update data, make API calls, etc.)
       },
+      filtering() {
+        // Ensure CustomerData is defined and is an array
+        if (Array.isArray(this.CustomerData)) {
+          this.copyCustomerData = this.CustomerData.filter(customer => customer.cus_name === this.findPerson) || {};
+        }
+        return {}; // Return an empty object if CustomerData is not an array
+      },
+      allShow(){
+        return this.copyCustomerData = this.CustomerData
+      }
+      
     }
 
 };
