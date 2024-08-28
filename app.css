@@ -67,11 +67,11 @@ ul {
 }
 
 ul input {
-    width: 150px;
+    width: 300px;
 }
 
 ul select {
-    width: 150px;
+    width: 300px;
 }
 
 ul label {
@@ -113,7 +113,7 @@ ul label {
 #filter {
     background-color: rgb(27,134,221);
     margin: 10px;
-    width: 200px;
+    width: 300px;
     height: 30px;
     font-size: 15px;
     color:#fff;
@@ -123,10 +123,16 @@ ul label {
     margin-left: 0%;
 }
 
+#filter input:hover {
+    background-color: blue;
+    color: #fff;
+    border-color: #fff;
+}
+
 #all {
     background-color: rgb(27,134,221);
     margin: 10px;
-    width: 200px;
+    width: 300px;
     height: 30px;
     font-size: 15px;
     color:#fff;
@@ -135,7 +141,13 @@ ul label {
     margin-left: 0%;
 }
 
-#search input {
+#all input:hover {
+    background-color: blue;
+    color: #fff;
+    border-color: #fff;
+}
+
+#search {
     color: black;
 }
 
@@ -160,7 +172,7 @@ select {
 
 #search_name {
     float: left;
-    width: 200px;
+    width: 300px;
 }
 
 /* *{
@@ -176,7 +188,7 @@ select {
 }
 
 .container1{
-    width: 200px;
+    width: 300px;
     min-width: auto;
 }
 
@@ -187,7 +199,7 @@ select {
 .container2{
     margin-left: 30px;
     margin-top: 5px;
-    width: 300px;
+    width: 600px;
 }
 
 .container2 label {
@@ -195,11 +207,12 @@ select {
     width: 100px;
     text-align: right;
     margin-right: 5px;
+    margin-left: 10px;
 }
 
 .container3{
     min-width: 500px;
-
+    margin-left: 15px;
 }
 
 .counsel {
@@ -213,4 +226,13 @@ ul li {
     margin-top: 10px;
 }
 
+#c_address {
+    height: 60px;
+}
 
+#message {
+    color: blue;
+    font-weight: bold;
+    margin-left: 180px;
+    
+}
