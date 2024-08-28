@@ -95,10 +95,14 @@
         </div>
       </div>   -->
       <CustomerVue></CustomerVue>
-      <InformationVue></InformationVue>
-      <CounselVue></CounselVue>
+      <!-- <InformationVue></InformationVue> -->
+      <!-- <CounselVue></CounselVue> -->
+      <!-- <transition name="modal">
+        <ModalVue @CloseModal="modalStatus=false" :modalStatus="modalStatus" />
+      </transition> -->
     </div>
   
+    <ModalVue />
   
   </template>
   
@@ -106,20 +110,23 @@
   
   import CustomerData from './assets/customer.js';
   import CustomerVue from './components/Customer.vue';
-  import InformationVue from './components/Information.vue';
-  import CounselVue from './components/Counsel.vue';
+  import ModalVue from './components/Modal.vue';
+  // import InformationVue from './components/Information.vue';
+  // import CounselVue from './components/Counsel.vue';
   
   export default {
     name: 'App',
     data() {
       return {
         CustomerData : CustomerData,
+  
       }
     },
     components: {
       CustomerVue,
-      InformationVue,
-      CounselVue,
+      ModalVue,
+      // InformationVue,
+      // CounselVue,
     },
   }
   </script>

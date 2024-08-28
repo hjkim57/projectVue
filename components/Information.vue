@@ -2,7 +2,7 @@
   <div class="container2">
       <ul class="information">
         <label for="c_date">**작성일자:</label>
-        <input type="text" id="c_date" v-model="localMember.create_date">
+        <input type="date" id="c_date" v-model="localMember.create_date">
         <br>
         <label for="c_name">*고객명:</label>
         <input type="text" id="c_name" v-model="localMember.cus_name">
@@ -28,27 +28,43 @@
         
         <br>
         <label for="m_name">관리담당자:</label>
-        <select id="m_name">
+        <select id="m_name" v-model="myManager.m_name">
           <option value="강하게">강하게</option>
           <option value="나대리">나대리</option>
           <option value="고과장">고과장</option>
         </select>
         <br>
         <label for="dept">**부서:</label>
-        <input type="text" id="dept" > 
+        <input type="text" id="dept" v-model="myManager.dept"> 
         <br>
         <label for="position">**직위:</label>
-        <input type="text" id="position" > 
+        <input type="text" id="position" v-model="myManager.position"> 
         <br>
         <label for="m_phone">**연락처:</label>
-        <input type="text" id="m_phone" > {{ member }}
+        <input type="text" id="m_phone" v-model="myManager.phone" >
       </ul>
+      <div id="message">고객 관리 담당자를 지정하세요!!!</div>
     </div>
+  
+  <ModalVue :CustomerData="CustomerData"></ModalVue>
+
 </template>
 
 <script>
+
+import ManagerData from '../assets/manager.js';
+import ModalVue from '../components/Modal.vue';
+
 export default {
     name: 'InformationVue',
+    data() {
+      return {
+        ManagerData : ManagerData,
+      }
+    },
+    components : {
+      ModalVue,
+    },
     props : {
       CustomerData: Array,
       myPicked: String,
@@ -61,7 +77,14 @@ export default {
           return this.CustomerData.find(customer => customer.cus_name === this.myPicked) || {};
         }
         return {}; // Return an empty object if CustomerData is not an array
+      },
+      myManager() {
+        if (Array.isArray(this.CustomerData)) {
+          return this.ManagerData.find(manager => manager.m_id === this.localMember.m_id) || {};
+        }
+        return {}; // CustomerData가 배열이 아닌 경우 기본적으로 빈 객체 반환
       }
+
     },
     // data() {
     //   return {
