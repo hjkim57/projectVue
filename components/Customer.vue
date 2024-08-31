@@ -12,7 +12,7 @@
       </fieldset>
   </div>
 
-  <InformationVue :copyCustomerData="copyCustomerData" :myPicked="myPicked" :step="step" :changeStatus="changeStatus"></InformationVue>
+  <InformationVue :copyCustomerData="copyCustomerData" :myPicked="myPicked" :step="step" :changeStatus="changeStatus=true"></InformationVue>
   <CounselVue :CustomerData="CustomerData" :myPicked="myPicked" @addMember="adding" @modifyManager="changeStatus"></CounselVue>
 
 </template>

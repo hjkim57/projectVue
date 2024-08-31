@@ -5,25 +5,25 @@
       <input :disabled="step_dis == 10" type="date" id="c_date" v-model="localMember.create_date">
       <br>
       <label for="c_name">*고객명:</label>
-      <input type="text" id="c_name" v-model="localMember.cus_name">
+      <input type="text" id="c_name" v-model="localMember.cus_name" @input="changingCustomerName($event)">
       <br>
       <label for="c_jm_number">*실명번호:</label>
       <input type="text" id="c_jm_number" v-model="localMember.jumin_id">
       <br>
       <label for="c_email">*E-mail:</label>
-      <input type="email" id="c_email" v-model="localMember.email">
+      <input type="email" id="c_email" v-model="localMember.email" @input="changingEmailName($event)">
       <br>
       <label for="c_home_call">전화번호:</label>
-      <input type="text" id="c_home_call" v-model="localMember.tel">
+      <input type="text" id="c_home_call" v-model="localMember.tel" @input="changingTelName($event)">
       <br>
       <label for="c_phone_call">*핸드폰 번호:</label>
-      <input type="text" id="c_phone_call" v-model="localMember.phone">
+      <input type="text" id="c_phone_call" v-model="localMember.phone" @input="changingPhoneName($event)">
       <br>
       <label for="job">*직업:</label>
-      <input type="text" id="job" v-model="localMember.job">
+      <input type="text" id="job" v-model="localMember.job" @input="changingJobName($event)">
       <br>
       <label for="c_address">주소:</label>
-      <input type="text" id="c_address" v-model="localMember.addr">
+      <input type="text" id="c_address" v-model="localMember.addr" @input="changingAddrName($event)">
       <br>
 
       <br>
@@ -113,10 +113,51 @@ export default {
 
   methods: {
     changingManagerName(event) {
-      const manager = this.ManagerData.find(manager => manager.m_name === event.target.value);
-      this.localMember.m_id = manager.m_id;
-      // console.log(event.target.value)
+      if(this.changeStatus){
+        console.log(this.changeStatus)
+        const manager = this.ManagerData.find(manager => manager.m_name === event.target.value);
+        this.localMember.m_id = manager.m_id;
+       // console.log(event.target.value)
+      }
     },
+    // Customer
+    changingCustomerName(event){
+      if(this.changeStatus){
+        // console.log(this.changeStatus)
+        this.localMember.cus_name = event.target.value;
+      }
+    },
+    changingEmailName(event){
+      if(this.changeStatus){
+        // console.log(this.changeStatus)
+        this.localMember.email = event.target.value;
+      }
+    },
+    changingTelName(event){
+      if(this.changeStatus){
+        // console.log(this.changeStatus)
+        this.localMember.tel = event.target.value;
+      }
+    },
+    changingPhoneName(event){
+      if(this.changeStatus){
+        // console.log(this.changeStatus)
+        this.localMember.phone = event.target.value;
+      }
+    },
+    changingJobName(event){
+      if(this.changeStatus){
+        // console.log(this.changeStatus)
+        this.localMember.job = event.target.value;
+      }
+    },
+    changingAddrName(event){
+      if(this.changeStatus){
+        // console.log(this.changeStatus)
+        this.localMember.addr = event.target.value;
+      }
+    },   
+
   }
  
 
