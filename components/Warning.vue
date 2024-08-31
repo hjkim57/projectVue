@@ -7,7 +7,8 @@
     
     <div class="modal-btn">
       <!-- <button @click="modalOpen">닫기</button> -->
-      <button @click="okay">확인</button>
+      <button v-if="step==2" @click="okay_modify">확인</button>
+      <button v-if="step==3" @click="okay_delete">확인</button>
       <button @click="no">취소</button>
     </div>
   </div>
@@ -20,17 +21,24 @@ export default {
     data() {
         return {
             // warnStatus: false,
+            changeStatus : false,
+            deleteStatus : false,
         }
     },
     
     props : {
         warnStatus : Boolean,
         step : Number,
+ 
     },
     methods: {
-        okay(){
-            // this.$emit('newMember',this.newMember)
+        okay_modify(){
             this.$emit('CloseWarn')
+            this.$emit('change', this.changeStatus);
+        },
+        okay_delete(){
+            this.$emit('CloseWarn')
+            this.$emit('delete', this.deleteStatus);
         },
         no(){
             // this.$emit('newMember',this.newMember)

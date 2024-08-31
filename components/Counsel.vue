@@ -6,29 +6,33 @@
         <p>{{ counsel.date }} {{ counsel.time }} {{ counsel.content }}</p>
         </div>
       </fieldset>
-      <div id="buttons">
         <div id="buttons_up">
-          <input class="buttons" type="button" id="register" v-on:click="submitRegister" value="등록">
-          <input class="buttons" type="button" id="modify" v-on:click="warning" value="변경">
-          <input class="buttons" type="button" id="delete" value="삭제">
-          <input class="buttons" type="button" id="new" v-on:click="modalStatus=true" value="신규">
+          <input type="button" id="register" 
+          value="등록" v-on:click="submitRegister" :disabled="step == 0">
+          <input type="button" id="modify" v-on:click="modifying" value="변경">
+          <input type="button" id="delete" v-on:click="deleting" value="삭제">
+          <input @click="step = 1" type="button" id="new" v-on:click="modalStatus=true" value="신규">
         </div>
-        <div id="buttons_down">  
-          <input class="buttons_exc" type="button" id="search" value="고객조회">
-          <input class="buttons" type="button" id="quit" value="종료">
+        <div id="button_search">  
+          <input type="button" id="search" value="고객조회">
+        </div>  
+        <div id="button_quit">
+          <input @click="step = 0, modalStatus=false" type="button" id="quit" value="종료">
         </div>
-      </div>
     </div>
     
     <transition name="modal">
       <ModalVue v-if="modalStatus" @CloseModal="modalStatus=false" @newMember="handleNewMember" :modalStatus="modalStatus" />
-      <!-- @CloseModal="modalStatus=false" :modalStatus="modalStatus" @newMember="handleNewMember"/> -->
     </transition>
 
     <transition name="warn">
-      <WarningVue v-if="warnStatus" @CloseWarn="warnStatus=false" :warnStatus="warnStatus" :step="step" /> 
+      <WarningVue v-if="warnStatus" @CloseWarn="warnStatus=false" @change="handleChangeStatus" @delete="handleDeleteStatus" 
+      :warnStatus="warnStatus" :step="step" /> 
     </transition>
 
+    <!-- <Information /> -->
+
+    
 </template>
 
 <script>
@@ -36,6 +40,7 @@
 import CounselData from '../assets/counsel.js';
 import ModalVue from '../components/Modal.vue';
 import WarningVue from './Warning.vue';
+// import Information from './Information.vue';
 
 export default {
     name :'CounselVue',
@@ -45,6 +50,8 @@ export default {
         modalStatus : false,
         addMember: {},
         warnStatus : false,
+        step : 0,
+
       }
     },
     props : {
@@ -56,7 +63,7 @@ export default {
       localMember() {
         // Ensure CustomerData is defined and is an array
         if (Array.isArray(this.CustomerData)) {
-          return this.CustomerData.find(customer => customer.cus_name === this.myPicked) || {};
+          return this.CustomerData.find(customer => customer.cus_id === this.myPicked) || {};
         }
         return {}; // Return an empty object if CustomerData is not an array
       },
@@ -72,17 +79,13 @@ export default {
     components: {
       ModalVue,
       WarningVue,
+      // Information,
     },
 
     methods: {
       // openModal() {
       //   // 'open-modal' 이벤트를 부모 컴포넌트로 emit
       //   this.$emit('open-modal');
-      // },
-      // handleRegister(){
-      //   console.log(this.newMember)
-      //   this.$emit('newMember',this.newMember)
-      //   this.$emit('CloseModal')
       // },
 
       handleNewMember(newMember) {
@@ -95,16 +98,30 @@ export default {
         // For now, it just logs the newMember data
         this.$emit('addMember', this.addMember)
         console.log(this.addMember);
+        this.modalStatus=false; 
+        this.step = 0;
         // Optionally, you can add logic here to process the newMember data, such as sending it to a server
       },
       modifying() {
         this.warnStatus = true;
         this.step = 2;
+        this.$emit('modifyManager', this.changeStatus)
       },
       deleting() {
         this.warnStatus = true;
         this.step = 3;
-      }
+        this.$emit('deleteInform', this.deleteStatus)
+      },
+      handleChangeStatus(status) {
+        this.changeStatus = status;
+        console.log('Change status:', this.changeStatus);
+        // Handle the updated change status here
+      },
+      handleDeleteStatus(status) {
+        this.deleteStatus = status;
+        console.log('Delete status:', this.deleteStatus);
+        // Handle the updated delete status here
+      },
       
   }
 

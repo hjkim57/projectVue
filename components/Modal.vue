@@ -3,7 +3,7 @@
     <div class="white-bg">
         <ul class="information">
             <label for="c_date">**작성일자:</label>
-            <input type="text" id="c_date" v-model="newMember.create_date">
+            <input type="date" id="c_date" v-model="newMember.create_date">
             <br>
             <label for="c_name">*고객명:</label>
             <input type="text" id="c_name" v-model="newMember.cus_name">
@@ -60,7 +60,7 @@ export default {
                 phone: '',
                 job: '',
                 addr: '',
-                m_id: ''
+                m_id: 0,
             }
         }
     },
