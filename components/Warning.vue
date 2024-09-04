@@ -43,13 +43,16 @@ export default {
       },
       okay_delete(){
           this.$emit('CloseWarn')
+          this.deleteStatus = true;
           this.$emit('delete', this.deleteStatus);
       },
       no(){
           // this.$emit('newMember',this.newMember;
           this.$emit('CloseWarn')
           this.changeStatus = false;
+          this.deleteStatus = false;
           this.$emit('change', this.changeStatus);
+          this.$emit('delete', this.deleteStatus);
       }
     },
 }

@@ -14,7 +14,7 @@
           <input @click="step = 1" type="button" id="new" v-on:click="modalStatus=true" value="신규">
         </div>
         <div id="button_search">  
-          <input type="button" id="search" value="고객조회">
+          <input v-on:click="modalsearchStatus = true" type="button" id="search" value="고객조회">
         </div>  
         <div id="button_quit">
           <input @click="step = 0, modalStatus=false" type="button" id="quit" value="종료">
@@ -30,6 +30,9 @@
       :warnStatus="warnStatus" :step="step" /> 
     </transition>
 
+    <Transition name="modalSearch">
+      <Modal_searchVue v-if="modalsearchStatus" @CloseModalsearch="modalsearchStatus=false" @newMember="handleNewMember" :modalsearchStatus="modalsearchStatus" />
+    </Transition>
     <!-- <Information /> -->
 
     
@@ -38,8 +41,10 @@
 <script>
 
 import CounselData from '../assets/counsel.js';
-import ModalVue from '../components/Modal.vue';
+import ModalVue from './Modal.vue';
 import WarningVue from './Warning.vue';
+import Modal_searchVue from './modal_search.vue';
+// import Modal_searchVue from './modal_search.vue';
 // import Information from './Information.vue';
 
 export default {
@@ -51,7 +56,8 @@ export default {
         addMember: {},
         warnStatus : false,
         step : 0,
-
+        changeStatus :false,
+        modalsearchStatus : false,
       }
     },
     props : {
@@ -79,6 +85,7 @@ export default {
     components: {
       ModalVue,
       WarningVue,
+      Modal_searchVue,
       // Information,
     },
 
@@ -105,7 +112,7 @@ export default {
       modifying() {
         this.warnStatus = true;
         this.step = 2;
-        this.$emit('modifyManager', this.changeStatus)
+        
       },
       deleting() {
         this.warnStatus = true;
@@ -114,11 +121,13 @@ export default {
       },
       handleChangeStatus(status) {
         this.changeStatus = status;
-        console.log('Change status:', this.changeStatus);
+        // console.log('Change status:', this.changeStatus);
+        this.$emit('modifyManager', this.changeStatus)
         // Handle the updated change status here
       },
       handleDeleteStatus(status) {
         this.deleteStatus = status;
+        this.$emit('deleteCustomer', this.deleteStatus);
         console.log('Delete status:', this.deleteStatus);
         // Handle the updated delete status here
       },

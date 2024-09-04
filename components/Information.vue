@@ -5,7 +5,7 @@
       <input :disabled="step_dis == 10" type="date" id="c_date" v-model="localMember.create_date">
       <br>
       <label for="c_name">*고객명:</label>
-      <input type="text" id="c_name" v-model="localMember.cus_name" @input="changingCustomerName($event)">
+      <input type="text" id="c_name" v-model="localMember.cus_name">
       <br>
       <label for="c_jm_number">*실명번호:</label>
       <input type="text" id="c_jm_number" v-model="localMember.jumin_id">
@@ -62,6 +62,8 @@ export default {
       step_dis: 10,
       selectedManagerName: '강하게',
       managerName : '',
+      name1 : null,
+      name2 : null,
     };
   },
   components: {
@@ -73,6 +75,8 @@ export default {
     copyCustomerData: Array,
     step : Number,
     changeStatus : Boolean,
+    newStatus : Boolean,
+    newName : String,
   },
   computed: {
     localMember() {
@@ -107,18 +111,39 @@ export default {
         this.selectedManagerName = '';
       }
     
-   }
+   },
+   changeStatus(newStatus) {
+      console.log('Change Status updated to:', newStatus);
+      this.secondStatus = newStatus;
+      // 필요한 경우, changeStatus가 변경되었을 때 추가 작업 수행
+    },  
       
   },
 
   methods: {
     changingManagerName(event) {
-      if(this.changeStatus){
-        console.log(this.changeStatus)
-        const manager = this.ManagerData.find(manager => manager.m_name === event.target.value);
-        this.localMember.m_id = manager.m_id;
-       // console.log(event.target.value)
-      }
+      setTimeout(() => {
+        let manager = null;
+        if (this.localMember.m_id != 0) {
+          manager = this.ManagerData.find(manager => manager.m_id === this.localMember.m_id);
+          this.name1 = manager.m_name;   
+          console.log("name1 : " + this.name1);     
+        } else {
+          console.log("name1가 없습니다.")
+        }
+        this.name2 = event.target.value;
+        console.log("name2 : " + this.name2);
+
+        if (this.newStatus) {
+          const manager = this.ManagerData.find(manager => manager.m_name === this.name2);
+          this.localMember.m_id = manager.m_id;
+          console.log(this.localMember.m_id)
+        } else {
+          const manager = this.ManagerData.find(manager => manager.m_name === this.name1);
+          this.localMember.m_id = manager.m_id;
+        }
+      }, 2000);
+      
     },
     // Customer
     changingCustomerName(event){
@@ -128,10 +153,22 @@ export default {
       }
     },
     changingEmailName(event){
-      if(this.changeStatus){
-        // console.log(this.changeStatus)
-        this.localMember.email = event.target.value;
-      }
+      let customer = null;
+      setTimeout(() => {
+        customer = this.copyCustomerData.find(customer => customer.cus_id === this.localMember.cus_id);
+        let email1 = customer.email;
+        console.log("email1 : " + email1)
+        let email2 = event.target.value;
+        console.log("email2 : " + email2)
+        if (this.newStatus) {
+          this.localMember.email = email2;
+          console.log(this.localMember.email)
+        } else {
+          this.localMember.email = email1;
+          console.log(this.localMember.email)
+        }
+      }, 2000);
+      
     },
     changingTelName(event){
       if(this.changeStatus){
