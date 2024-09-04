@@ -9,7 +9,8 @@
       <!-- <button @click="modalOpen">닫기</button> -->
       <button v-if="step==2" @click="okay_modify">확인</button>
       <button v-if="step==3" @click="okay_delete">확인</button>
-      <button @click="no">취소</button>
+      <button v-if="step==2" @click.stop="" @click="no">취소</button>
+      <button v-if="step==3" @click.stop="" @click="no">취소</button>
     </div>
   </div>
   </div>
@@ -32,18 +33,24 @@ export default {
  
     },
     methods: {
-        okay_modify(){
-            this.$emit('CloseWarn')
-            this.$emit('change', this.changeStatus);
-        },
-        okay_delete(){
-            this.$emit('CloseWarn')
-            this.$emit('delete', this.deleteStatus);
-        },
-        no(){
-            // this.$emit('newMember',this.newMember)
-            this.$emit('CloseWarn')
-        }
+      okay_modify(){
+        this.$emit('CloseWarn')
+        this.changeStatus = true;
+        this.$emit('change', this.changeStatus);
+        // 편집 모드에서 완료 버튼을 클릭했을 때의 동작
+        // this.$emit('CloseWarn');
+        // this.$emit('edit', { status: this.changeStatus });
+      },
+      okay_delete(){
+          this.$emit('CloseWarn')
+          this.$emit('delete', this.deleteStatus);
+      },
+      no(){
+          // this.$emit('newMember',this.newMember;
+          this.$emit('CloseWarn')
+          this.changeStatus = false;
+          this.$emit('change', this.changeStatus);
+      }
     },
 }
 </script>
