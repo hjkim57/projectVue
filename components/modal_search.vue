@@ -5,7 +5,7 @@
             
             <fieldset class="names_m">
             <label v-for="mem in copyManagerData" :key="mem.m_id">
-            <input type="radio" name="managers" :value="mem.m_id" v-model="myPicked" />
+            <input type="radio" name="managers" :value="mem.m_id" v-model="myPick_manager" />
             {{ mem.m_name }}<br>
             </label>
             <button @click="closeModalsearch">닫기</button>
@@ -13,7 +13,7 @@
             
             <fieldset class="names_c">
             <label v-for="mem in copyCustomerData" :key="mem.cus_id">
-            <input type="radio" name="customers" :value="mem.cus_id" v-model="myPicked" />
+            <input :disabled="mem.m_id != myPick_manager" type="radio" name="customers" :value="mem.cus_id" v-model="myPick_cus" />
             {{ mem.cus_name }}<br>
             </label>
             </fieldset>
@@ -55,21 +55,20 @@
 <script>
 import CustomerData from '../assets/customer.js';
 import ManagerData from '../assets/manager.js';
-import ModalVue from './modal.vue';
-
+// import ModalVue from './modal.vue';
+import ModalVue from './Modal.vue';
 
 export default {
   name: 'ModalsearchVue',
   data() {
     return {
-
       ManagerData: ManagerData,
       copyManagerData: [...ManagerData],
-
       copyCustomerData: [...CustomerData],
       step_dis: 10,
-      selectedManagerName: '강하게',
+      myPick_manager: 1,
       managerName : '',
+      // myPick_cus : 1,
       //copyCustomerData: [...CustomerData],
 
       
@@ -80,7 +79,7 @@ export default {
   },
   props: {
     //CustomerData: Array,
-    //myPicked: Number,
+    // myPicked: Number,
     //copyCustomerData: Array,
     step : Number,
     changeStatus : Boolean,
@@ -90,7 +89,7 @@ export default {
     localMember() {
       // Ensure copyCustomerData is defined and is an array
       if (Array.isArray(this.copyCustomerData)) {
-        return this.copyCustomerData.find(customer => customer.cus_id === this.myPicked) || {};
+        return this.copyCustomerData.find(customer => customer.m_id === this.myPick_manager) || {};
       }
       return {}; // Return an empty object if CustomerData is not an array
     },
@@ -99,9 +98,8 @@ export default {
   methods: {
     
     closeModalsearch(){
-            
-            this.$emit('CloseModalsearch')
-        },
+      this.$emit('CloseModalsearch')
+    },
   },
 }
 
@@ -126,11 +124,18 @@ export default {
         padding: 20px;
     } 
 
-    .information {
+    /* .information {
 
         display: inline-block;
     width: 100px;
     text-align: right;
 
-    }
+    } */
+    .information_2 label {
+    display: inline-block;
+    width: 100px;
+    text-align: right;
+    margin-right: 5px;
+    margin-left: 10px;
+}
 </style>
