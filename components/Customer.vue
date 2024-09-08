@@ -104,7 +104,7 @@ export default {
       changeStatus(newValue, oldValue) {
         console.log('changeStatus has changed from', oldValue, 'to', newValue);
         this.newStatus = newValue;
-        console.log('새로운 상태 : ' + this.newStatus);
+        // console.log('새로운 상태 : ' + this.newStatus);
       }
     }
 };

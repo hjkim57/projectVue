@@ -1,7 +1,7 @@
 <template>
   <div class="warning-wrap" v-if="warnStatus==true">
   <div class="warn-container">
-    
+    <img src="../assets/WarningIcon.gif">
     <div v-if="step==2" class="modify">[변경] 버튼을 클릭하면 해당 고객정보가 삭제됩니다. 변경 시 복구가 불가능하므로 주의해야 합니다.</div>
     <div v-if="step==3" class="delete">[삭제] 버튼을 클릭하면 해당 고객정보가 삭제됩니다. 삭제 시 복구가 불가능하므로 주의해야 합니다.</div>
     

@@ -128,7 +128,7 @@ export default {
       handleDeleteStatus(status) {
         this.deleteStatus = status;
         this.$emit('deleteCustomer', this.deleteStatus);
-        console.log('Delete status:', this.deleteStatus);
+        // console.log('Delete status:', this.deleteStatus);
         // Handle the updated delete status here
       },
       
